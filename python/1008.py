@@ -3,8 +3,9 @@ from sys import stdin
 
 def move(list,n,m):
 	for i in range(n-1):
-		if i<n-m+i%m:
-			list[i],list[n-m+i%m]=list[n-m+i%m],list[i]		
+		# if i<=n-m+i%m:
+		list[i],list[n-m+i%m]=list[n-m+i%m],list[i]	
+		print list
 	return map(lambda x:int(x),list)
 	
 if __name__=='__main__':
