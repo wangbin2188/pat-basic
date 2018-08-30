@@ -21,8 +21,3 @@ main(){
 	printf("%d",step(i1));
 }
 
-/* int a[MAXN], n, m;
-    int i;
-
-   scanf("%d %d", &n, &m);
-    for ( i = 0; i < n; i++ ) scanf("%d", &a[i]);*/
