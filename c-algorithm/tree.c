@@ -8,7 +8,8 @@ typedef struct Tree {
 } tree;
 
 
-
+/*这完全是基于这棵树是二叉搜索树来查找的，二叉搜索树的特征是：
+1.树的左子节点都小于父节点，右子节点都大于父节点，因此搜索的时间复杂度是O(logN)*/
 int find(tree *t,int x) {
 	int i=0;
 	if(t==NULL) {
@@ -24,7 +25,7 @@ int find(tree *t,int x) {
 		find(t->right,x);
 	}
 }
-
+/*查找最小值的递归算法*/
 tree *findMin(tree *t) {
 	if(t==NULL) {
 		return NULL;
@@ -35,6 +36,7 @@ tree *findMin(tree *t) {
 	}
 }
 
+/*查找最大值的非递归算法*/
 int findMax(tree *t) {
 	if(t!=NULL) {
 		while(t->right!=NULL) {
@@ -44,26 +46,8 @@ int findMax(tree *t) {
 	return t->data;
 }
 
-tree *init(tree *t,int x) {
-	if(t==NULL) {
-		t=malloc(sizeof(tree));
-		t->data=x;
-		t->left=NULL;
-		t->right=NULL;
-		return t;
-	} else if(t->left ==NULL) {
-		t->left=init(t->left,x);
-		return t;
-	} else {
-		t->right=init(t->right,x);
-
-		return t;
-	}
-}
-
-
-
-tree *insertSort(tree *t,int x) {
+/*对二叉搜索树进行初始化，使得每次插入新数据都不破坏二叉排序树形态*/
+tree *insert(tree *t,int x) {
 	if(t==NULL) {
 		t=malloc(sizeof(tree));
 		t->data=x;
@@ -77,7 +61,13 @@ tree *insertSort(tree *t,int x) {
 	return t;
 }
 
-
+/*对二叉搜索树节点删除，保证不破坏二叉排序树形态
+ * 0.首先通过递归方式找到待删除的节点，这时有三种情况：
+ * 1.删除叶子节点一定不破坏顺序，可以直接删；
+ * 2.删除只有一个子节点的节点，只需要把子节点放在当前节点上，也没有太大难度；
+ * 3.删除两个子节点的节点比较繁琐：
+ *  ①首先要找到当前节点右子树的最小节点(原因是这个节点必然是叶子节点，且大于左子树所有节点，小于右子树所有节点)，
+ *  ②将这个节点的值赋给当前节点，并递归删除右子树的最小节点*/
 tree *delete(tree *t,int x) {
 	tree *temp;
 	if(t==NULL) {
@@ -92,10 +82,10 @@ tree *delete(tree *t,int x) {
 		t->right=delete( t->right,t->data );
 	} else {/*one or zero children */
 		temp=t;
-		if( t->left==NULL) {
-			t=t->right;
-		} else if( t->right == NULL ) {
+		if( t->left!=NULL) {
 			t=t->left;
+		} else if( t->right != NULL ) {
+			t=t->right;
 		}
 		free(temp);
 	}
