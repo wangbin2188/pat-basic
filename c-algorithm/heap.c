@@ -1,6 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
-#define CAPACITY 10
+#define CAPACITY 20
 
 /*堆有两个性质：
  * 1.结构性：堆必须是一颗完全二叉树
@@ -22,11 +22,6 @@ void travel(heap *h);
 /*数组0位置要空着*/
 void init( heap *h ) {
 	h->size=0;
-	int i;
-	for(i=1; i< 6; i++) {
-		h->data[i]=2*i+1;
-		h->size++;
-	}
 }
 
 void insert(heap *h,int x) {
@@ -46,23 +41,33 @@ void insert(heap *h,int x) {
 	h->data[i]=x;
 }
 /*删除最小元素，在小顶堆即意味着删除根节点
- * 1.首先将最后一个元素赋值给根元素，这样保证了堆的结构性；
- * 2.重建堆，使堆保持堆序*/
-void deleteMin(heap *h) {
+ * 1.首先将根元素保存，等待最后return；
+ * 2.将最后一个元素赋值给根元素，并将这个值赋给缓冲区，这样保证了堆的结构性；
+ * 3.从根节点开始遍历，比较父节点和两个子节点的大小，如果缓冲区值大于较小的子节点，则将小节点的值赋给父节点
+ * 4.直到缓冲区值小于游标的两个子节点，此时将缓冲区值赋给游标所在位置*/
+int deleteMin(heap *h) {
+	int child;
+	int result=h->data[1];
 	h->data[1]=h->data[h->size];
 	h->size--;
-	int i;
+	int i=1;
 	int temp=h->data[1];
-	for(i=1; i<=h->size; i*=2) {
-		if(h->data[i] > h->data[2*i]) {
-			h->data[i]=h->data[2*i];
+	for(i=1; 2*i <= h->size; i=child) {
+		child=2*i;
+		if(child !=h->size && h->data[child] > h->data[child+1] ) {/*如果左子节点非最后元素且>右子节点,则右子节点最小*/
+			child++;
+		}
+		if(temp > h->data[child]) {/*如果temp大于当前元素的最小子节点，则将最小子节点赋值给父节点，否则跳出*/
+			h->data[i]=h->data[child];
 		} else {
 			break;
 		}
 	}
-	h->data[i]=temp;
+	h->data[i]=temp;/*将缓冲区值赋给当前游标*/
+	return result;
 }
-/*遍历时越过空白位置0，从1开始*/
+
+/*遍历堆数组：越过空白位置0，从1开始*/
 void travel(heap *h) {
 	int i;
 	for(i=1; i<=h->size; i++) {
@@ -71,13 +76,31 @@ void travel(heap *h) {
 	printf("\n");
 }
 
+/*堆排序*/
+void heap_sort(int a[],int n) {
+	int i;
+	heap *h=(heap*)malloc(sizeof(heap));/*给堆指针分配空间*/
+	init(h);/*初始化堆*/
+	for(i=0; i<n; i++) {/*将数组的元素依次插入堆*/
+		insert(h,a[i]);
+	}
+	for(i=0; i<n; i++) {
+		a[i]=deleteMin(h);
+	}
+}
+/*遍历数组*/
+void travel_array(int a[],int n) {
+	int i;
+	for(i=0; i<n; i++) {
+		printf("%d ",a[i]);
+	}
+	printf("\n");
+}
 
 main() {
-	heap *h=(heap*)malloc(sizeof(heap));
-	init(h);
-	travel(h);
-	insert(h,6);
-	travel(h);
-	deleteMin(h);
-	travel(h);
+	int a[]= {67,8,4,34,86,87,6,45,7,864,56,1,3,78,9,13};
+	int n=sizeof(a)/sizeof(int);
+	travel_array(a,n);
+	heap_sort(a,n);
+	travel_array(a,n);
 }
