@@ -137,7 +137,7 @@ public class Graph {
 
 
 
-    private static Graph initGraph() {
+    public static Graph initGraph() {
         char[] nodes = {'A', 'B', 'C', 'D', 'E', 'F', 'G'};
         char[][] edges = {
                 {'A', 'C'},
@@ -145,8 +145,9 @@ public class Graph {
                 {'A', 'F'},
                 {'B', 'C'},
                 {'C', 'D'},
+                {'D', 'E'},
                 {'E', 'G'},
-                {'F', 'G'}
+                {'G', 'F'}
         };
 
         int vLen = nodes.length;
@@ -172,7 +173,8 @@ public class Graph {
             edge2.setVertexIndex(p1);
 
             linkLast(graph.getVertices().get(p1), edge1);
-            linkLast(graph.getVertices().get(p2), edge2);
+            /**将下一行代码保留即为无向图，注释掉即为有向图*/
+//            linkLast(graph.getVertices().get(p2), edge2);
 
         }
         return graph;
