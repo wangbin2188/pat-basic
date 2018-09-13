@@ -9,7 +9,7 @@ import java.util.Queue;
 public class Sort {
     public static void main(String[] args) {
         Integer[] myArray = {67, 8, 4, 34, 86, 87, 6, 45, 7, 864, 56, 1, 3, 78, 9, 13};
-        radixSort(myArray);
+        heapSort3(myArray);
         printArray(myArray);
     }
 
@@ -82,6 +82,24 @@ public class Sort {
         }
         for (int i = 0; i < myArray.length; i++) {
             myArray[i] = q.poll();
+        }
+    }
+
+    public static void heapSort2(Integer[] myArray) {
+        BinaryHeap<Integer> q = new BinaryHeap<>(myArray);
+
+        for (int i = 0; i < myArray.length; i++) {
+            myArray[i] = q.deleteMin();
+        }
+    }
+
+    public static void heapSort3(Integer[] myArray) {
+        BinaryHeap<Integer> q = new BinaryHeap<>();
+        for (int i = 0; i < myArray.length; i++) {
+            q.insert(myArray[i]);
+        }
+        for (int i = 0; i < myArray.length; i++) {
+            myArray[i] = q.deleteMin();
         }
     }
 
