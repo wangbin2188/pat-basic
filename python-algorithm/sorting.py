@@ -4,11 +4,11 @@ def insertion_sort(old_list):
 	k=0
 	for i in range(1,n):
 		temp=old_list[i]
-		j=i-1
-		while j>=0 and temp<old_list[j]:
-			old_list[j+1]=old_list[j]
+		j=i
+		while j>0 and temp<old_list[j-1]:
+			old_list[j]=old_list[j-1]
 			j=j-1
-		old_list[j+1]=temp
+		old_list[j]=temp
 	return old_list
 			
 
@@ -91,5 +91,5 @@ def shell_sort(nums):
 if __name__=='__main__':
     list=[19,8,7,6,32,5,4,13,14,15,10,28]
     print list
-    data=shell_sort(list)
+    data=insertion_sort(list)
     print data
