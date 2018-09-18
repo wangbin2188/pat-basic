@@ -1,6 +1,9 @@
 package algorithm;
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Random;
+import java.util.Stack;
 
 /**
  * Created by wangbin10 on 2018/9/11.
@@ -16,11 +19,11 @@ public class AVLTree<T extends Comparable<? super T>> {
             int num = rand.nextInt(100);
             root = tree.insert(root, num);
         }
-        tree.preTravel(root);
-        System.out.println();
-        tree.midTravel(root);
-        System.out.println();
         tree.postTravel(root);
+        System.out.println("==========");
+        tree.postOrder(root);
+        System.out.println("==========");
+
     }
 
     public Integer getHeight(AVLNode<T> t) {
@@ -167,7 +170,9 @@ public class AVLTree<T extends Comparable<? super T>> {
         }
     }
 
-
+    /**
+     * 前序遍历——递归实现
+     */
     public void preTravel(AVLNode<T> t) {
         if (t == null) {
             return;
@@ -177,6 +182,9 @@ public class AVLTree<T extends Comparable<? super T>> {
         preTravel(t.right);
     }
 
+    /**
+     * 中序遍历——递归实现
+     */
     public void midTravel(AVLNode<T> t) {
         if (t == null) {
             return;
@@ -186,6 +194,9 @@ public class AVLTree<T extends Comparable<? super T>> {
         midTravel(t.right);
     }
 
+    /**
+     * 后序遍历——递归实现
+     */
     public void postTravel(AVLNode<T> t) {
         if (t == null) {
             return;
@@ -194,6 +205,104 @@ public class AVLTree<T extends Comparable<? super T>> {
         postTravel(t.right);
         System.out.format("%s,", t.data);
     }
+
+    /**
+     * 层次遍历
+     */
+    public void levelTravel(AVLNode<T> t) {
+        Queue<AVLNode<T>> queue = new LinkedList<>();
+        if (t == null) {
+            return;
+        }
+        System.out.format("%s,", t.data);
+        queue.offer(t);
+        while (!queue.isEmpty()) {
+            AVLNode<T> pop = queue.poll();
+            if (pop.left != null) {
+                System.out.format("%s,", pop.left.data);
+                queue.offer(pop.left);
+            }
+            if (pop.right != null) {
+                System.out.format("%s,", pop.right.data);
+                queue.offer(pop.right);
+            }
+        }
+        System.out.println();
+    }
+
+    /**
+     * 前序遍历——非递归实现
+     * 如果根节点及其左节点存在，则打印并入栈；
+     * 待所有左子节点入栈后，对栈顶元素出栈，并返回其右子节点（假如有的话）
+     * 同样道理，打印当前节点，并入栈其左子树
+     */
+    public void preOrder(AVLNode<T> t) {
+        Stack<AVLNode<T>> stack = new Stack<>();
+        while (t != null || !stack.isEmpty()) {
+            while (t != null) {
+                System.out.format("%s,", t.data);
+                stack.push(t);
+                t = t.left;
+            }
+            if (!stack.empty()) {
+                t = stack.pop();
+                t = t.right;
+            }
+        }
+        System.out.println();
+    }
+
+    /**
+     * 中序遍历——非递归实现
+     * 如果根节点及其左节点存在，则入栈；
+     * 如果栈不空，则对栈顶元素出栈，并打印；
+     * 指针移到当前元素的右子节点，入栈；
+     */
+    public void midOrder(AVLNode<T> t) {
+        Stack<AVLNode<T>> stack = new Stack<>();
+        while (t != null || !stack.isEmpty()) {
+            while (t != null) {
+                stack.push(t);
+                t = t.left;
+            }
+            if (!stack.isEmpty()) {
+                t = stack.pop();
+                System.out.printf("%s,", t.data);
+                t = t.right;
+            }
+        }
+        System.out.println();
+    }
+
+    /**
+     * 后续遍历——非递归实现
+     */
+    public void postOrder(AVLNode<T> t) {
+        Stack<AVLNode<T>> stack1 = new Stack<>();
+        Stack<Integer> stack2 = new Stack<>();
+        int i = 1;
+        while (t != null || !stack1.empty()) {
+            while (t != null) {
+                stack1.push(t);
+                stack2.push(0);
+                t = t.left;
+            }
+
+            while (!stack1.empty() && stack2.peek() == i) {
+                stack2.pop();
+                System.out.format("%s,", stack1.pop().data);
+            }
+
+            if (!stack1.empty()) {
+                stack2.pop();
+                stack2.push(1);
+                t = stack1.peek();
+                t = t.right;
+            }
+        }
+        System.out.println();
+    }
+
 }
 
 
