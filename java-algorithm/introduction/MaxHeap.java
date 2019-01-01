@@ -1,10 +1,17 @@
 package sort;
 
-import java.util.Arrays;
-
+/**
+ * 《算法导论》第六章堆排序
+ * @param <T>
+ */
 public class MaxHeap<T extends Comparable<? super T>> {
     private int curSize;
     private T[] array;
+
+    /**
+     * 从一个数组构造一个大顶堆
+     * @param array
+     */
 
     public MaxHeap(T[] array) {
 
@@ -16,6 +23,11 @@ public class MaxHeap<T extends Comparable<? super T>> {
         this.curSize = array.length;
         buildMaxHeap();
     }
+
+    /**
+     * 递归的调整元素，使得数组中元素的顺序符合堆的性质
+     * @param index
+     */
 
     private void maxHeapify(int index) {
 
@@ -46,7 +58,9 @@ public class MaxHeap<T extends Comparable<? super T>> {
         array[y] = temp;
     }
 
-
+    /**
+     * 对非叶子节点使用maxHeapify(),使得满足堆的性质
+     */
     private void buildMaxHeap() {
 
         for (int i = curSize / 2; i >= 1; i--) {
@@ -54,6 +68,9 @@ public class MaxHeap<T extends Comparable<? super T>> {
         }
     }
 
+    /**
+     * 堆排序：弹出堆顶元素，依次放入数组中，使得最终数组是有序的
+     */
     public void heapSort() {
         buildMaxHeap();
         for (int i = curSize; i >= 2; i--) {
@@ -83,6 +100,11 @@ public class MaxHeap<T extends Comparable<? super T>> {
         return max;
     }
 
+    /**
+     * 增加一个元素的key,并进行调整，使得继续保持堆的性质
+     * @param index
+     * @param key
+     */
     public void increaseKey(int index,T key){
         if(key.compareTo(array[index])<0){
             return;
@@ -95,6 +117,10 @@ public class MaxHeap<T extends Comparable<? super T>> {
 
     }
 
+    /**
+     * 向堆中插入新元素，这里未考虑底层数组容量问题
+     * @param key
+     */
     public void insert(T key){
         curSize++;
         array[curSize]=key;
