@@ -1,7 +1,7 @@
 package introduction;
 
 
-import static introduction.InsertSort.printArray;
+import java.util.Arrays;
 
 /**
  * Created by wangbin10 on 2018/12/28.
@@ -16,9 +16,9 @@ public class MaxSubArray {
     public static void main(String[] args) {
         Integer[] myArray = {67, -8, -4, -34, -86, -87, -6, -45, -7, -64, -56, -1, -3, -78, -9};
         Integer[] crossSubArray = findCrossSubArray(myArray, 0, 7, 14);
-        printArray(crossSubArray);
+        System.out.println(Arrays.toString(crossSubArray));
         Integer[] maxSubArray = findMaxSubArray(myArray, 0, 14);
-        printArray(maxSubArray);
+        System.out.println(Arrays.toString(maxSubArray));
         int maxArray = findMaxArray(myArray);
         System.out.println(maxArray);
     }

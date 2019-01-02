@@ -1,7 +1,9 @@
-package sort;
+package introduction;
 
 import java.util.Arrays;
 import java.util.Random;
+
+import static introduction.Utils.swap;
 
 /**
  * 《算法导论》第七章：快速排序
@@ -21,7 +23,7 @@ public class QuickSort {
      * @param high
      */
 
-    public static void quickSort(Integer [] array,int low,int high) {
+    public static <T extends Comparable> void quickSort(T [] array,int low,int high) {
         if (low < high) {
             int q=partition(array,low,high);
             quickSort(array,low,q-1);
@@ -36,11 +38,11 @@ public class QuickSort {
      * @param high
      * @return
      */
-    private static int partition(Integer[] array, int low, int high) {
-        int x=array[high];
+    private static <T extends Comparable> int partition(T [] array, int low, int high) {
+        T x=array[high];
         int i=low-1;
         for (int j = low; j <= high - 1; j++) {
-            if (array[j] <= x) {
+            if (array[j].compareTo(x)<=0) {
                 i=i+1;
                 swap(array,i,j);
             }
@@ -55,7 +57,7 @@ public class QuickSort {
      * @param low
      * @param high
      */
-    public static void randomQuickSort(Integer[] array,int low,int high) {
+    public static <T extends Comparable> void randomQuickSort(T [] array,int low,int high) {
         if (low < high) {
             int q = randomPartition(array, low, high);
             randomQuickSort(array,low,q-1);
@@ -65,23 +67,20 @@ public class QuickSort {
 
     /**
      * 改进版划分分区
+     * 区别在于不再以最后一个元素作为游标，而是随机选取一个元素，当然还是要把这个游标元素放在最后一个位置
      * @param array
      * @param low
      * @param high
      * @return
      */
-    public static int randomPartition(Integer[] array,int low,int high) {
+    public static <T extends Comparable> int randomPartition(T [] array,int low,int high) {
         Random random = new Random();
         int rand = random.nextInt(high-low+1)+low;
         swap(array,rand,high);
         return partition(array,low,high);
     }
 
-    private static void swap(Integer[] array, int x, int y) {
-        Integer temp = array[x];
-        array[x] = array[y];
-        array[y] = temp;
-    }
+
 
 
 }

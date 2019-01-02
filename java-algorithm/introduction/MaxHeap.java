@@ -1,4 +1,6 @@
-package sort;
+package introduction;
+
+import static introduction.Utils.swap;
 
 /**
  * 《算法导论》第六章堆排序
@@ -49,14 +51,8 @@ public class MaxHeap<T extends Comparable<? super T>> {
             maxHeapify(largest);
         }
 
-
     }
 
-    private void swap(T[] array, int x, int y) {
-        T temp = array[x];
-        array[x] = array[y];
-        array[y] = temp;
-    }
 
     /**
      * 对非叶子节点使用maxHeapify(),使得满足堆的性质

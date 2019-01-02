@@ -1,6 +1,6 @@
-package sort;
+package introduction;
 
-import static sort.QuickSort.randomPartition;
+import static introduction.QuickSort.randomPartition;
 
 
 /**
@@ -15,7 +15,7 @@ public class RandomSelect {
         System.out.println(num);
     }
 
-    public static int randomSelect(Integer[] array, int low, int high, int i) {
+    public static <T extends Comparable> T randomSelect(T [] array, int low, int high, int i) {
         if (low == high) {
             return array[low];
         }

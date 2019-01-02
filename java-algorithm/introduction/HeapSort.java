@@ -1,6 +1,7 @@
 package introduction;
 
-import static introduction.InsertSort.printArray;
+
+import java.util.Arrays;
 
 /**
  * Created by wangbin10 on 2018/12/17.
@@ -118,7 +119,7 @@ public class HeapSort<T extends Comparable<? super T>> {
         for (int i = 0; i < myArray.length; i++) {
             myArray[i] = maxHeap.deleteMax();
         }
-        printArray(myArray);
+        System.out.println(Arrays.toString(myArray));
 
     }
 
