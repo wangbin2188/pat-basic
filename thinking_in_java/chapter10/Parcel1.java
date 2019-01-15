@@ -8,6 +8,7 @@ public class Parcel1 {
         Content content = new Content();
         Destination dest = new Destination(dest1);
         System.out.println(dest.readLabel());
+
     }
 
     public static void main(String[] args) {
@@ -16,7 +17,7 @@ public class Parcel1 {
     }
 
     class Content {
-       private int i=11;
+        private int i = 11;
         public int value() {
             return i;
         }
